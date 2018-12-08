@@ -14,7 +14,7 @@ class Stack
 {
 	Node <T> *h;
 public:
-	void push1(T &val)
+	void push(T &val)
 	{
 		Node<T> *temp = new Node<T>;
 		temp->x = val;
@@ -34,7 +34,7 @@ public:
 		return h->x;
 	}
 
-	void push2(T &&value)
+	void push(T &&value)
 	{
 		Node<T> *temp = new Node<T>;
 		temp->next = h;
