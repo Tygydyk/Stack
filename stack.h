@@ -1,44 +1,43 @@
-#include <iostream>
-
-using namespace std;
-
-template <typename T>
-struct Node
-{
-	T x;
-	Node <T> *head, *next;
-};
+#include <deque>
+#include <exception>
 
 template <typename T>
 class Stack
 {
-	Node <T> *h;
-public:
-	void push(T &val)
-	{
-		Node<T> *temp = new Node<T>;
-		temp->x = val;
-		temp->next = h;
-		h = temp;
+	std::deque<T> s;
+public: 
+	// Класс исключения для методов pop() и head() при пустом стеке
+	class ReadEmptyStack : public std::exception { 
+	public:
+		virtual const char* what() const throw() {
+			return "Read empty stack";
+		}
+	};
+
+	typename std::deque<T>::size_type size() const {
+		return s.size();
 	}
 
-	void pop()
-	{
-		Node <T> *pv = h;
-		h = h->next;
-		delete pv;
+	bool empty() const {
+		return s.empty();
 	}
 
-	T& head()
-	{
-		return h->x;
+	void push(T&& value) { // вставляет элемент в стек по rvalue-ссылке
+		s.push_back(std::move(value));
+	}
+	void push(const T& value) { // вставляет элемент в стек 
+		s.push_back(value);
 	}
 
-	void push(T &&value)
-	{
-		Node<T> *temp = new Node<T>;
-		temp->next = h;
-		temp->x = value;
-		h = move(temp);
+	void pop() { // удаляет элемент из стека
+		if (s.empty()) throw ReadEmptyStack();
+		T value(s.back());
+		s.pop_back();
+
+	}
+
+	 const T& head() const { // возвращает элемент на вершине стека
+		 if (s.empty()) { throw ReadEmptyStack(); }
+		return s.back();
 	}
 };
