@@ -23,6 +23,10 @@ int main()
 		st.pop();
 
 		cout << st.head() << endl;
+		
+		st.push_emplace(6, 7);
+
+		cout << st.head() << endl;
 
 	}
 	catch (const exception &e) {
