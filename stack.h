@@ -25,6 +25,17 @@ public:
 	void push(T&& value) { // вставляет элемент в стек по rvalue-ссылке
 		s.push_back(std::move(value));
 	}
+	
+	template <typename ... Args>
+	void push_emplace(Args&&... value) {
+
+		for (auto t : std::deque<T>{ value... }) {
+
+			s.push_back(t);
+
+		}
+	}
+	
 	void push(const T& value) { // вставляет элемент в стек 
 		s.push_back(value);
 	}
